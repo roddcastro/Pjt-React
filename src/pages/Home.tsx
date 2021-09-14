@@ -12,20 +12,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Button } from '../components/Button'
 import { SkillCard } from '../components/SkillCard'
 
-interface Cadastro{
-    id: string,
-    name: string,
-    email: string,
-    telefone: string
+interface Listagem{
+    id: string;
+    name: string;
+    email: string;
+    telefone: string;
 }
 
 export function Home(){
     const [newNomes, setNewNomes] = useState('')
-    const [myNomes, setMyNomes] = useState<Cadastro[]>([])
+    const [myNomes, setMyNomes] = useState<Listagem[]>([])
     const [newEmails, setNewEmails] = useState('')
-    const [myEmails, setMyEmails] = useState<Cadastro[]>([])
+    const [myEmails, setMyEmails] = useState<Listagem[]>([])
     const [newTelefones, setNewTelefones] = useState('')
-    const [myTelefones, setMyTelefones] = useState<Cadastro[]>([])
+    const [myTelefones, setMyTelefones] = useState<Listagem[]>([])
     const [greeting, setGreeting] = useState('')
 
     function handleAddNew(){
@@ -44,7 +44,7 @@ export function Home(){
     }
 
     function handleRemove(id: string){
-        setMyNomes(myNomes.filter(Cadastro=> Cadastro.id !== id))
+        setMyNomes(myNomes.filter(Listagem=> Listagem.id !== id))
 
     }
 
@@ -82,9 +82,8 @@ export function Home(){
             <Text style={styles.greetings}>
                 {greeting}
             </Text>
-            <Text style={styles.title}>Seja bem-vindo, efetue seu cadastro:</Text>
+            <Text style={styles.title}>Seja bem-vindo, efetue seu Listagem:</Text>
 
-            <Text style={styles.textInput}>Nome:</Text>
             <TextInput
                     style={styles.input}
                     placeholder= 'Digite seu nome...'
@@ -95,10 +94,10 @@ export function Home(){
                     blurOnSubmit
             />
 
-            <Text style={styles.textInput}>Email:</Text>
             <TextInput
                 style={styles.input}
                 placeholder= 'Digite seu email...'
+                keyboardType="email-address"
                 value={newEmails}
                 placeholderTextColor='#555'
                 onChangeText={value => setNewEmails(value)}
@@ -106,7 +105,6 @@ export function Home(){
                 blurOnSubmit
             />
 
-            <Text style={styles.textInput}>Telefone:</Text>
             <TextInput
                 style={styles.input}
                 placeholder= 'Digite seu telefone...'
@@ -156,7 +154,7 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 30
+        marginBottom: 30,
     },
     textInput: {
         color: '#4F4F4F',

@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {TouchableOpacity, Text, StyleSheet, TouchableOpacityProps} from 'react-native'
 
 interface ISkillCaraProps extends TouchableOpacityProps {
@@ -28,24 +28,23 @@ export function SkillCard({Nome, Email, Telefone, ...rest}: ISkillCaraProps){
 }
 const styles = StyleSheet.create({
     buttonSkill: {
-        backgroundColor: '#4F4F4F',
+        backgroundColor: 'black',
         padding:15,
         borderRadius:15,
-        alignItems: 'center',
-        marginBottom: 15,
+        marginBottom: 15
     },
     textSkillNome: {
-        color: '#fff',
+        color: 'white',
         fontSize: 26,
         fontWeight: 'bold'
     },
     textSkillemail: {
-        color: '#fff',
+        color: 'white',
         fontSize: 22,
         fontWeight: 'bold'
     },
     textSkillTelefone: {
-        color: '#fff',
+        color: 'white',
         fontSize: 18,
         fontWeight: 'bold'
     }

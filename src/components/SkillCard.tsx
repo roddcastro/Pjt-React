@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {TouchableOpacity, Text, StyleSheet, TouchableOpacityProps} from 'react-native'
 
 interface ISkillCaraProps extends TouchableOpacityProps {

@@ -5,7 +5,8 @@ import {
     StyleSheet,
     TextInput,
     Platform,
-    FlatList
+    FlatList,
+    Image
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -14,50 +15,36 @@ import { SkillCard } from '../components/SkillCard'
 
 interface Listagem{
     id: string;
-    name: string;
-    email: string;
-    telefone: string;
+    codigo: string;
+    nome: string;
 }
 
 export function Home(){
+    const [newCodigos, setNewCodigos] = useState('')
+    const [myCodigos, setMyCodigos] = useState<Listagem[]>([])
     const [newNomes, setNewNomes] = useState('')
     const [myNomes, setMyNomes] = useState<Listagem[]>([])
-    const [newEmails, setNewEmails] = useState('')
-    const [myEmails, setMyEmails] = useState<Listagem[]>([])
-    const [newTelefones, setNewTelefones] = useState('')
-    const [myTelefones, setMyTelefones] = useState<Listagem[]>([])
-    const [greeting, setGreeting] = useState('')
 
     function handleAddNew(){
         const List = {
             id: String(new Date().getTime()),
-            name: newNomes,
-            email: newEmails,
-            telefone: newTelefones,
+            codigo: newCodigos,
+            nome: newNomes
         }
-        setMyNomes([...myNomes, List])
-        setNewNomes('')
-        setMyEmails([...myEmails, List])
-        setNewEmails('')
-        setMyTelefones([...myTelefones, List])
-        setNewTelefones('')
+        if(newCodigos.trim() !== '' && newNomes.trim() !== ''){
+            setMyCodigos([...myCodigos, List])
+            setNewCodigos('')
+            setMyNomes([...myNomes, List])
+            setNewNomes('')
+        }else{
+            alert('Preencha todos os campos!')
+        }
     }
 
     function handleRemove(id: string){
         setMyNomes(myNomes.filter(Listagem=> Listagem.id !== id))
 
     }
-
-    useEffect(() => {
-        const currentHour = new Date().getHours();
-        if (currentHour >= 5 && currentHour < 12){
-            setGreeting('Bom dia!')
-        }else if (currentHour >= 12 && currentHour < 18){
-            setGreeting('Boa tarde!')
-        }else {
-            setGreeting('Boa noite!')
-        }
-    }, [])
 
     useEffect(() => {
         async function loadData() {
@@ -79,14 +66,13 @@ export function Home(){
     return(
         <>
         <View style={styles.container}>
-            <Text style={styles.greetings}>
-                {greeting}
-            </Text>
-            <Text style={styles.title}>Seja bem-vindo, efetue seu Listagem:</Text>
+        <Image style={styles.img} source={require('../../assets/mapa.png')} />
+            <Text style={styles.title}>Faça o cadastro abaixo:</Text>
 
             <TextInput
                     style={styles.input}
-                    placeholder= 'Digite seu nome...'
+                    placeholder= 'Digite o código do país...'
+                    keyboardType="numeric"
                     value={newNomes}
                     placeholderTextColor='#555'
                     onChangeText={value => setNewNomes(value)}
@@ -96,22 +82,10 @@ export function Home(){
 
             <TextInput
                 style={styles.input}
-                placeholder= 'Digite seu email...'
-                keyboardType="email-address"
-                value={newEmails}
+                placeholder= 'Digite o nome do país...'
+                value={newCodigos}
                 placeholderTextColor='#555'
-                onChangeText={value => setNewEmails(value)}
-                onSubmitEditing={handleAddNew}
-                blurOnSubmit
-            />
-
-            <TextInput
-                style={styles.input}
-                placeholder= 'Digite seu telefone...'
-                keyboardType="numeric"
-                value={newTelefones}
-                placeholderTextColor='#555'
-                onChangeText={value => setNewTelefones(value)}
+                onChangeText={value => setNewCodigos(value)}
                 onSubmitEditing={handleAddNew}
                 blurOnSubmit
             />
@@ -130,9 +104,8 @@ export function Home(){
                 keyExtractor={item=> item.id}
                 renderItem={({item})=> ( 
                     <SkillCard
-                    Nome={item.name}
-                    Email={item.email}
-                    Telefone={item.telefone}
+                    Codigo={item.codigo}
+                    Nome={item.nome}
                     onPress={() => handleRemove(item.id)}
                     />
             )}
@@ -146,30 +119,31 @@ export function Home(){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#B0C4DE',
+        backgroundColor: 'black',
         paddingHorizontal: 30,
         paddingVertical: 70
     },
     title: {
-        color: 'black',
+        color: 'white',
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 30,
+        marginBottom: 30
     },
     textInput: {
         color: '#4F4F4F',
         fontSize: 18
     },
     input: {
-        backgroundColor: '#D3D3D3',
-        color: 'black',
+        backgroundColor: '#1C1C1C',
+        color: 'white',
         fontSize: 18,
         marginBottom: 10,
         padding: Platform.OS === 'ios' ? 15 : 12,
         borderRadius: 7
     },
-    greetings: {
-        color: 'black',
-        fontSize: 20
+    img: {
+        width: 330,
+        height: 120,
+        marginBottom: 10
     }
 })
